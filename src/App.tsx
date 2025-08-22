@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import showdown from "showdown";
+import { useNavigate } from "react-router-dom";
 
 interface Tale {
   title: string;
@@ -13,11 +13,7 @@ interface TalesData {
 
 function App() {
   const [tales, setTales] = useState<TalesData>({});
-  const [selectedTale, setSelectedTale] = useState<string>("");
-  const [taleContent, setTaleContent] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-
-  const converter = new showdown.Converter();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("Fetching tales...");
@@ -33,23 +29,8 @@ function App() {
       .catch((error) => console.error("Error loading tales:", error));
   }, []);
 
-  const handleTaleSelect = async (taleSlug: string) => {
-    setSelectedTale(taleSlug);
-    setLoading(true);
-
-    try {
-      const response = await fetch(
-        `/words_made_of_pixels/tales/${taleSlug}.md`
-      );
-      const markdown = await response.text();
-      const html = converter.makeHtml(markdown);
-      setTaleContent(html);
-    } catch (error) {
-      console.error("Error loading tale content:", error);
-      setTaleContent("Error loading tale content");
-    } finally {
-      setLoading(false);
-    }
+  const handleTaleSelect = (taleSlug: string) => {
+    navigate(`/tale/${taleSlug}`);
   };
 
   return (
@@ -68,16 +49,6 @@ function App() {
         </ul>
       </div>
 
-      {selectedTale && (
-        <div>
-          <h2>{tales[selectedTale]?.title}</h2>
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <div dangerouslySetInnerHTML={{ __html: taleContent }} />
-          )}
-        </div>
-      )}
     </div>
   );
 }
