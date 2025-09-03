@@ -1,5 +1,5 @@
 Không chịu nổi mùi phân hủy trong bếp, 3 giờ sáng tôi đi đổ rác. Mưa lác đác. Lẳng túi rác vào thùng, tôi chợt để ý hai cẳng chân trần trắng hếu trên những túi nilon đen.  
-Ông hàng xóm, không mảnh vải che thân, nằm dặt dẹo trong thùng rác. Đôi mắt vô hồn, nhưng khuôn mặt vẫn hồng hào, không phải màu tái nhợt như các xác chết. Rùng mình, tôi nhìn kĩ lại, lồng ngực ông ta đang phập phồng nhè nhẹ. Vẫn còn thở, nhưng không phản ứng gì khi lay gọi.  
+Ông hàng xóm, không mảnh vải che thân, nằm dặt dẹo trong thùng rác. Đôi mắt vô hồn, nhưng khuôn mặt vẫn hồng hào, không phải màu tái nhợt như các xác chết. Rùng mình, tôi nhìn kĩ hơn, lồng ngực ông ta đang phập phồng nhè nhẹ. Vẫn còn thở, nhưng không phản ứng gì khi lay gọi.  
 Tôi gọi cảnh sát. Họ đến soi đèn vào, kiểm tra một lúc lâu. Rồi một viên cảnh sát thở dài.
 "Cái này phải gọi đội dọn thân"
 
