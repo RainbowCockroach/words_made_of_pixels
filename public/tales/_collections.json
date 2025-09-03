@@ -1,0 +1,11 @@
+{
+  "neighbourhood-gods": {
+    "language": ["en", "vi"],
+    "name": {
+      "en": "Neighbourhood Gods",
+      "vi": "Các vị thần hàng xóm"
+    },
+    "lastUpdated": "2020-01-01",
+    "tales": ["corpse-in-dumpster", "living-art"]
+  }
+}

@@ -1,12 +1,29 @@
 {
-  "book1": {
-    "title": "The Great Adventure",
+  "corpse-in-dumpster": {
+    "language": ["en", "vi"],
+    "title": {
+      "en": "Corpse in dumpster",
+      "vi": "Xác chết trong thùng rác"
+    },
     "author": "John Doe",
-    "year": 2020
+    "lastUpdated": "2020-01-01"
   },
-  "book2": {
-    "title": "Mystery of the Lost City",
+  "living-art": {
+    "language": ["en", "vi"],
+    "title": {
+      "en": "Living Art",
+      "vi": "Nghệ thuật sống"
+    },
     "author": "Jane Smith",
-    "year": 2018
+    "lastUpdated": "2020-01-01"
+  },
+  "random-tale": {
+    "language": ["en", "vi"],
+    "title": {
+      "en": "Random Tale",
+      "vi": "Câu chuyện ngẫu nhiên"
+    },
+    "author": "Alex Johnson",
+    "lastUpdated": "2020-01-01"
   }
 }

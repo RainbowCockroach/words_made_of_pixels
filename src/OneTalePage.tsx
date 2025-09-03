@@ -4,9 +4,10 @@ import showdown from "showdown";
 import "./OneTalePage.css";
 
 interface Tale {
-  title: string;
+  title: { [language: string]: string };
   author: string;
-  year: number;
+  lastUpdated: string;
+  language: string[];
 }
 
 interface TalesData {
@@ -25,11 +26,19 @@ const OneTalePage: React.FC = () => {
       if (!slug) return;
 
       try {
+        // Parse the slug to get base slug and language
+        // slug format: "tale-slug-language" or just "tale-slug"
+        const parts = slug.split("-");
+        const language = parts[parts.length - 1];
+        const baseSlug = parts.slice(0, -1).join("-");
+
         // Load tale metadata
-        const talesResponse = await fetch("/words_made_of_pixels/tales/_tales.json");
+        const talesResponse = await fetch(
+          "/words_made_of_pixels/tales/_tales.json"
+        );
         const talesData: TalesData = await talesResponse.json();
-        const taleInfo = talesData[slug];
-        
+        const taleInfo = talesData[baseSlug];
+
         if (!taleInfo) {
           setTale(null);
           setTaleContent("Tale not found");
@@ -37,10 +46,27 @@ const OneTalePage: React.FC = () => {
           return;
         }
 
+        // Check if the requested language is available
+        if (!taleInfo.language.includes(language)) {
+          setTale(null);
+          setTaleContent("Tale not available in requested language");
+          setLoading(false);
+          return;
+        }
+
         setTale(taleInfo);
 
         // Load tale content
-        const contentResponse = await fetch(`/words_made_of_pixels/tales/${slug}.md`);
+        const contentResponse = await fetch(
+          `/words_made_of_pixels/tales/${slug}.md`
+        );
+
+        if (!contentResponse.ok) {
+          throw new Error(
+            `Failed to fetch tale content: ${contentResponse.status}`
+          );
+        }
+
         const markdown = await contentResponse.text();
         const html = converter.makeHtml(markdown);
         setTaleContent(html);
@@ -62,20 +88,34 @@ const OneTalePage: React.FC = () => {
   if (!tale) {
     return (
       <div>
-        <Link to="/">← Back to tales</Link>
-        <div>Tale not found</div>
+        <Link to="/">← Back</Link>
+        <div>Not found</div>
       </div>
     );
   }
 
+  const getLanguageFromSlug = (slug: string) => {
+    const parts = slug.split("-");
+    return parts[parts.length - 1];
+  };
+
+  const currentLanguage = slug ? getLanguageFromSlug(slug) : "en";
+  const title = tale
+    ? tale.title[currentLanguage] ||
+      tale.title["en"] ||
+      Object.values(tale.title)[0]
+    : "";
+
   return (
     <div className="one-tale-page">
-      <Link to="/">← Back to tales</Link>
-      <h1>{tale.title}</h1>
-      <p className="tale-meta">by {tale.author} ({tale.year})</p>
-      <div 
-        className="tale-content" 
-        dangerouslySetInnerHTML={{ __html: taleContent }} 
+      <Link to="/">← Back</Link>
+      <h1>{title}</h1>
+      <p className="tale-meta">
+        {tale.author} ({new Date(tale.lastUpdated).toLocaleDateString()})
+      </p>
+      <div
+        className="tale-content"
+        dangerouslySetInnerHTML={{ __html: taleContent }}
       />
     </div>
   );
