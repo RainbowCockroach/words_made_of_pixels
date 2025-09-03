@@ -2,7 +2,11 @@
   "book1": {
     "title": "The Great Adventure",
     "author": "John Doe",
-    "date": "2020-01-01"
+    "date": "2020-01-01",
+    "collection": {
+      "name": "Adventure Chronicles",
+      "order": 1
+    }
   },
   "book2": {
     "title": "Mystery of the Lost City",

@@ -5,6 +5,10 @@ interface Tale {
   title: string;
   author: string;
   year: number;
+  collection?: {
+    name: string;
+    order: number;
+  };
 }
 
 interface TalesData {
@@ -33,22 +37,69 @@ function App() {
     navigate(`/tale/${taleSlug}`);
   };
 
+  const groupedTales = () => {
+    const collections: { [key: string]: Array<{ slug: string; tale: Tale }> } =
+      {};
+    const standalone: Array<{ slug: string; tale: Tale }> = [];
+
+    Object.entries(tales).forEach(([slug, tale]) => {
+      if (tale.collection) {
+        if (!collections[tale.collection.name]) {
+          collections[tale.collection.name] = [];
+        }
+        collections[tale.collection.name].push({ slug, tale });
+      } else {
+        standalone.push({ slug, tale });
+      }
+    });
+
+    Object.values(collections).forEach((collection) => {
+      collection.sort(
+        (a, b) =>
+          (a.tale.collection?.order || 0) - (b.tale.collection?.order || 0)
+      );
+    });
+
+    return { collections, standalone };
+  };
+
+  const { collections, standalone } = groupedTales();
+
   return (
     <div>
       <h1>Disjointed tales of pixels</h1>
 
       <div>
-        <ul>
-          {Object.entries(tales).map(([slug, tale]) => (
-            <li key={slug}>
-              <button onClick={() => handleTaleSelect(slug)}>
-                {tale.title} by {tale.author} ({tale.year})
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+        {Object.entries(collections).map(([collectionName, tales]) => (
+          <div key={collectionName}>
+            <h2>{collectionName}</h2>
+            <ul>
+              {tales.map(({ slug, tale }) => (
+                <li key={slug}>
+                  <button onClick={() => handleTaleSelect(slug)}>
+                    {tale.title} by {tale.author} ({tale.year})
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
 
+        {standalone.length > 0 && (
+          <div>
+            <h2>Disjointed Tales</h2>
+            <ul>
+              {standalone.map(({ slug, tale }) => (
+                <li key={slug}>
+                  <button onClick={() => handleTaleSelect(slug)}>
+                    {tale.title} by {tale.author} ({tale.year})
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
