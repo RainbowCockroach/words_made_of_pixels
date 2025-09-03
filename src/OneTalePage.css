@@ -1,0 +1,42 @@
+.one-tale-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.one-tale-page a {
+  color: #0066cc;
+  text-decoration: none;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.one-tale-page a:hover {
+  text-decoration: underline;
+}
+
+.one-tale-page h1 {
+  margin: 20px 0 10px 0;
+}
+
+.tale-meta {
+  color: #666;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+.tale-content {
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.tale-content h1,
+.tale-content h2,
+.tale-content h3 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.tale-content p {
+  margin-bottom: 15px;
+}
