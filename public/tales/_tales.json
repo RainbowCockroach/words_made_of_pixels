@@ -2,11 +2,11 @@
   "book1": {
     "title": "The Great Adventure",
     "author": "John Doe",
-    "year": 2020
+    "date": "2020-01-01"
   },
   "book2": {
     "title": "Mystery of the Lost City",
     "author": "Jane Smith",
-    "year": 2018
+    "date": "2018-01-01"
   }
 }

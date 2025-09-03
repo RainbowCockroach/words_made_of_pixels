@@ -6,7 +6,7 @@ import "./OneTalePage.css";
 interface Tale {
   title: string;
   author: string;
-  year: number;
+  date: string;
 }
 
 interface TalesData {
@@ -26,10 +26,12 @@ const OneTalePage: React.FC = () => {
 
       try {
         // Load tale metadata
-        const talesResponse = await fetch("/words_made_of_pixels/tales/_tales.json");
+        const talesResponse = await fetch(
+          "/words_made_of_pixels/tales/_tales.json"
+        );
         const talesData: TalesData = await talesResponse.json();
         const taleInfo = talesData[slug];
-        
+
         if (!taleInfo) {
           setTale(null);
           setTaleContent("Tale not found");
@@ -40,7 +42,9 @@ const OneTalePage: React.FC = () => {
         setTale(taleInfo);
 
         // Load tale content
-        const contentResponse = await fetch(`/words_made_of_pixels/tales/${slug}.md`);
+        const contentResponse = await fetch(
+          `/words_made_of_pixels/tales/${slug}.md`
+        );
         const markdown = await contentResponse.text();
         const html = converter.makeHtml(markdown);
         setTaleContent(html);
@@ -62,20 +66,22 @@ const OneTalePage: React.FC = () => {
   if (!tale) {
     return (
       <div>
-        <Link to="/">← Back to tales</Link>
-        <div>Tale not found</div>
+        <Link to="/">← Back</Link>
+        <div>Not found</div>
       </div>
     );
   }
 
   return (
     <div className="one-tale-page">
-      <Link to="/">← Back to tales</Link>
+      <Link to="/">← Back</Link>
       <h1>{tale.title}</h1>
-      <p className="tale-meta">by {tale.author} ({tale.year})</p>
-      <div 
-        className="tale-content" 
-        dangerouslySetInnerHTML={{ __html: taleContent }} 
+      <p className="tale-meta">
+        by {tale.author} ({new Date(tale.date).toLocaleDateString()})
+      </p>
+      <div
+        className="tale-content"
+        dangerouslySetInnerHTML={{ __html: taleContent }}
       />
     </div>
   );
