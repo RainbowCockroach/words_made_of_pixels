@@ -2,6 +2,7 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  font-family: 'Crimson Text', serif;
 }
 
 .one-tale-page a {
@@ -26,8 +27,8 @@
 }
 
 .tale-content {
-  line-height: 1.6;
-  font-size: 16px;
+  line-height: 1.7;
+  font-size: 18px;
 }
 
 .tale-content h1,
