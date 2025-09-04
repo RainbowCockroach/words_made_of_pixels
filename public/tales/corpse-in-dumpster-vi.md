@@ -1,6 +1,7 @@
-Không chịu nổi mùi phân hủy trong bếp, 3 giờ sáng phải đi đổ rác. Mưa lác đác. Lẳng túi rác vào thùng, chợt để ý hai cẳng chân trần trắng hếu trên những túi nilon đen.  
-Ông hàng xóm, không mảnh vải che thân, nằm dặt dẹo trong thùng rác. Đôi mắt vô hồn, nhưng khuôn mặt vẫn hồng hào, không phải màu tái nhợt của xác chết. Nhìn kĩ hơn, lồng ngực ông ta vẫn đang phập phồng nhè nhẹ. Vẫn còn thở, nhưng không phản ứng gì khi lay gọi.  
+Không chịu nổi mùi phân hủy trong bếp, 3 giờ sáng phải đi đổ rác. Mưa lác đác. Lẳng túi rác vào thùng, chợt tôi để ý hai cẳng chân trần trắng hếu trên những túi nilon đen.  
+Ông hàng xóm, không mảnh vải che thân, nằm dặt dẹo trong thùng rác. Đôi mắt vô hồn, nhưng khuôn mặt vẫn hồng hào, không phải màu tái nhợt của xác chết. Nhìn kĩ hơn, lồng ngực ông ta đang phập phồng nhè nhẹ. Vẫn còn thở, nhưng không phản ứng gì khi lay gọi.  
 Rùng mình, tôi gọi cảnh sát. Họ đến soi đèn vào, kiểm tra một lúc lâu. Rồi một viên cảnh sát thở dài.
+
 "Cái này phải gọi đội dọn thân"
 
 \* \* \*
@@ -13,4 +14,4 @@ Sau nhiều cuộc điện thoại, một nhóm người mặc đồng phục v�
 "À, xin lỗi, tôi không để ý" \_ anh chàng kia bối rối.
 
 Người này sau đó phải nộp một khoản tiền phạt. Anh ta gãi đầu cười cười nhìn tôi  
-"Xin lỗi nhé, đang đêm hôm làm anh giật mình. Thân cũ của tôi khá già rồi, lại còn bị tiểu đường. Tôi vừa mua thân mới này xong. Tốn phết, nhưng cũng đáng đồng tiền..."
+"Xin lỗi nhé, đang đêm hôm làm anh giật mình. Thân cũ của tôi khá già rồi, lại còn bị tiểu đường. Tôi vừa mua thân mới này xong. Tốn phết, nhưng cũng đáng tiền..."

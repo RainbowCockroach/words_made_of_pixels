@@ -3,9 +3,9 @@
     "language": ["en", "vi"],
     "name": {
       "en": "Neighbourhood Gods",
-      "vi": "Các vị thần hàng xóm"
+      "vi": "Các vị thần tổ dân phố"
     },
     "lastUpdated": "2020-01-01",
-    "tales": ["corpse-in-dumpster", "living-art"]
+    "tales": ["corpse-in-dumpster"]
   }
 }
