@@ -7,23 +7,5 @@
     },
     "author": "Wlyronler",
     "lastUpdated": "2025-06-05"
-  },
-  "living-art": {
-    "language": ["en", "vi"],
-    "title": {
-      "en": "Living Art",
-      "vi": "Nghệ thuật sống"
-    },
-    "author": "Jane Smith",
-    "lastUpdated": "2020-01-01"
-  },
-  "random-tale": {
-    "language": ["en", "vi"],
-    "title": {
-      "en": "Random Tale",
-      "vi": "Câu chuyện ngẫu nhiên"
-    },
-    "author": "Alex Johnson",
-    "lastUpdated": "2020-01-01"
   }
 }
