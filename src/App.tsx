@@ -46,11 +46,12 @@ function App() {
       .catch((error) => console.error("Error loading data:", error));
   }, []);
 
-  const handleTaleSelect = (taleSlug: string) => {
+  const handleTaleSelect = (taleSlug: string, language?: string) => {
     const tale = tales[taleSlug];
-    const hasLanguage = tale?.language.includes(selectedLanguage);
+    const targetLanguage = language || selectedLanguage;
+    const hasLanguage = tale?.language.includes(targetLanguage);
     const fileSlug = hasLanguage
-      ? `${taleSlug}-${selectedLanguage}`
+      ? `${taleSlug}-${targetLanguage}`
       : `${taleSlug}-en`;
     navigate(`/tale/${fileSlug}`);
   };
@@ -147,7 +148,7 @@ function App() {
       <div>
         {Object.entries(groupedCollections).map(([collectionName, tales]) => (
           <div key={collectionName}>
-            <h3>{collectionName}</h3>
+            <p>{collectionName}</p>
             <ul>
               {tales.map(({ slug, tale }) => {
                 const hasSelectedLanguage =
@@ -165,14 +166,32 @@ function App() {
                     >
                       {title} - {tale.author} (
                       {new Date(tale.lastUpdated).getFullYear()})
-                      {!hasSelectedLanguage && (
-                        <span>
-                          {" "}
-                          (Available in:{" "}
-                          {tale.language.join(", ").toUpperCase()})
-                        </span>
-                      )}
                     </button>
+                    {tale.language.length > 1 && (
+                      <span style={{ marginLeft: "10px" }}>
+                        [
+                        {tale.language.map((lang, index) => (
+                          <span key={lang}>
+                            <button
+                              onClick={() => handleTaleSelect(slug, lang)}
+                              style={{
+                                background: "none",
+                                border: "none",
+                                color: "blue",
+                                textDecoration: "underline",
+                                cursor: "pointer",
+                                padding: "0",
+                                fontSize: "inherit",
+                              }}
+                            >
+                              {lang.toUpperCase()}
+                            </button>
+                            {index < tale.language.length - 1 && ", "}
+                          </span>
+                        ))}
+                        ]
+                      </span>
+                    )}
                   </li>
                 );
               })}
@@ -182,7 +201,7 @@ function App() {
 
         {standalone.length > 0 && (
           <div>
-            <h3>Standalone things</h3>
+            <p>Standalone things</p>
             <ul>
               {standalone.map(({ slug, tale }) => {
                 const hasSelectedLanguage =
@@ -200,14 +219,32 @@ function App() {
                     >
                       {title} - {tale.author} (
                       {new Date(tale.lastUpdated).getFullYear()})
-                      {!hasSelectedLanguage && (
-                        <span>
-                          {" "}
-                          (Available in:{" "}
-                          {tale.language.join(", ").toUpperCase()})
-                        </span>
-                      )}
                     </button>
+                    {tale.language.length > 1 && (
+                      <span style={{ marginLeft: "10px" }}>
+                        [
+                        {tale.language.map((lang, index) => (
+                          <span key={lang}>
+                            <button
+                              onClick={() => handleTaleSelect(slug, lang)}
+                              style={{
+                                background: "none",
+                                border: "none",
+                                color: "blue",
+                                textDecoration: "underline",
+                                cursor: "pointer",
+                                padding: "0",
+                                fontSize: "inherit",
+                              }}
+                            >
+                              {lang.toUpperCase()}
+                            </button>
+                            {index < tale.language.length - 1 && ", "}
+                          </span>
+                        ))}
+                        ]
+                      </span>
+                    )}
                   </li>
                 );
               })}
