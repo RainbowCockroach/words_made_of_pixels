@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import showdown from "showdown";
+import LanguageSelector from "./LanguageSelector";
 import "./OneTalePage.css";
 
 interface Tale {
@@ -16,9 +17,11 @@ interface TalesData {
 
 const OneTalePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [tale, setTale] = useState<Tale | null>(null);
   const [taleContent, setTaleContent] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
 
   useEffect(() => {
     const converter = new showdown.Converter();
@@ -45,6 +48,9 @@ const OneTalePage: React.FC = () => {
           setLoading(false);
           return;
         }
+
+        // Get only languages available for this specific tale
+        setAvailableLanguages(taleInfo.language.sort());
 
         // Check if the requested language is available
         if (!taleInfo.language.includes(language)) {
@@ -99,12 +105,21 @@ const OneTalePage: React.FC = () => {
     return parts[parts.length - 1];
   };
 
-  const currentLanguage = slug ? getLanguageFromSlug(slug) : "en";
+  const currentLanguage = slug ? getLanguageFromSlug(slug) : "vi";
   const title = tale
     ? tale.title[currentLanguage] ||
       tale.title["en"] ||
       Object.values(tale.title)[0]
     : "";
+
+  const handleLanguageChange = (newLanguage: string) => {
+    if (slug && tale) {
+      const parts = slug.split("-");
+      const baseSlug = parts.slice(0, -1).join("-");
+      const targetLanguage = tale.language.includes(newLanguage) ? newLanguage : "vi";
+      navigate(`/tale/${baseSlug}-${targetLanguage}`);
+    }
+  };
 
   return (
     <div className="one-tale-page">
@@ -116,6 +131,12 @@ const OneTalePage: React.FC = () => {
       <div
         className="tale-content"
         dangerouslySetInnerHTML={{ __html: taleContent }}
+      />
+
+      <LanguageSelector
+        languages={availableLanguages}
+        selectedLanguage={currentLanguage}
+        onLanguageChange={handleLanguageChange}
       />
     </div>
   );
