@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import LanguageSelector from "./LanguageSelector";
+import "./App.css";
 
 interface Tale {
   title: { [language: string]: string };
@@ -26,7 +28,7 @@ interface CollectionsData {
 function App() {
   const [tales, setTales] = useState<TalesData>({});
   const [collections, setCollections] = useState<CollectionsData>({});
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("en");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("vi");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +54,7 @@ function App() {
     const hasLanguage = tale?.language.includes(targetLanguage);
     const fileSlug = hasLanguage
       ? `${taleSlug}-${targetLanguage}`
-      : `${taleSlug}-en`;
+      : `${taleSlug}-vi`;
     navigate(`/tale/${fileSlug}`);
   };
 
@@ -128,22 +130,6 @@ function App() {
   return (
     <div>
       <h1>Disjointed tales of pixels</h1>
-
-      {availableLanguages.length > 1 && (
-        <div style={{ marginBottom: "20px" }}>
-          <label>Language: </label>
-          <select
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-          >
-            {availableLanguages.map((lang) => (
-              <option key={lang} value={lang}>
-                {lang.toUpperCase()}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
 
       <div>
         {Object.entries(groupedCollections).map(([collectionName, tales]) => (
@@ -252,6 +238,12 @@ function App() {
           </div>
         )}
       </div>
+
+      <LanguageSelector
+        languages={availableLanguages}
+        selectedLanguage={selectedLanguage}
+        onLanguageChange={setSelectedLanguage}
+      />
     </div>
   );
 }
