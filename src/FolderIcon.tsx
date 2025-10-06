@@ -11,6 +11,7 @@ function FolderIcon({ color = "#ffcc00", name, onClick }: FolderIconProps) {
         display: "inline-block",
         textAlign: "center",
         cursor: onClick ? "pointer" : "default",
+        maxWidth: "120px",
       }}
       onClick={onClick}
     >
@@ -23,7 +24,9 @@ function FolderIcon({ color = "#ffcc00", name, onClick }: FolderIconProps) {
           strokeLinejoin="round"
         />
       </svg>
-      {name && <div style={{ marginTop: "2px" }}>{name}</div>}
+      {name && (
+        <div style={{ marginTop: "2px", wordWrap: "break-word" }}>{name}</div>
+      )}
     </div>
   );
 }

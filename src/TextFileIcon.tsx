@@ -18,6 +18,7 @@ export default function TextFileIcon({
         flexDirection: "column",
         alignItems: "center",
         gap: "4px",
+        maxWidth: "150px",
       }}
     >
       <svg width="24" height="28" viewBox="0 0 24 28">
@@ -37,7 +38,15 @@ export default function TextFileIcon({
         <line x1="5" y1="15" x2="19" y2="15" stroke="black" strokeWidth="0.5" />
         <line x1="5" y1="18" x2="15" y2="18" stroke="black" strokeWidth="0.5" />
       </svg>
-      <span style={{ color: "black" }}>{name}</span>
+      <span
+        style={{
+          color: "black",
+          textAlign: "center",
+          wordWrap: "break-word",
+        }}
+      >
+        {name}
+      </span>
     </div>
   );
 }
