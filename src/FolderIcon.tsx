@@ -4,13 +4,14 @@ interface FolderIconProps {
   onClick?: () => void;
 }
 
-function FolderIcon({ color = "#ffcc00", name, onClick }: FolderIconProps) {
+function FolderIcon({ color = "#c0bc3fff", name, onClick }: FolderIconProps) {
   return (
     <div
       style={{
         display: "inline-block",
         textAlign: "center",
         cursor: onClick ? "pointer" : "default",
+        maxWidth: "120px",
       }}
       onClick={onClick}
     >
@@ -23,7 +24,9 @@ function FolderIcon({ color = "#ffcc00", name, onClick }: FolderIconProps) {
           strokeLinejoin="round"
         />
       </svg>
-      {name && <div style={{ marginTop: "2px" }}>{name}</div>}
+      {name && (
+        <div style={{ marginTop: "2px", wordWrap: "break-word" }}>{name}</div>
+      )}
     </div>
   );
 }
