@@ -4,7 +4,7 @@ interface FolderIconProps {
   onClick?: () => void;
 }
 
-function FolderIcon({ color = "#ffcc00", name, onClick }: FolderIconProps) {
+function FolderIcon({ color = "#c0bc3fff", name, onClick }: FolderIconProps) {
   return (
     <div
       style={{
