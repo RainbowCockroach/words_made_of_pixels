@@ -1,2 +1,0 @@
-Tôi và May chạy như điên trên cầu thang, leo lên mái nhà. Gió lạnh và tuyết ùa vào. Trước mắt chúng tôi là hàng nghìn đốm sáng lấp lánh đang lơ lửng trên trời.
-Chúng nhiều và sáng hơn bất cứ ngôi sao nào. Chúng xuất hiện giữa không trung, không một tiếng động, rồi từ từ rơi xuống mặt đất. Chúng rơi nhẹ nhàng, thẳng đứng, không hề bị xô lệch bởi cơn bão tuyết gào thét. Chúng thoắt ẩn thoắt hiện, lấp ló sau những bông tuyết dày.
