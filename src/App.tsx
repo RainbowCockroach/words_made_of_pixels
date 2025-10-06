@@ -1,38 +1,16 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import LanguageSelector from "./LanguageSelector";
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import CollectionsListPage from "./CollectionsListPage";
+import TalesListPage from "./TalesListPage";
+import OneTalePage from "./OneTalePage";
+import type { TalesData, CollectionsData } from "./types";
 
-interface Tale {
-  title: { [language: string]: string };
-  author: string;
-  lastUpdated: string;
-  language: string[];
-}
-
-interface Collection {
-  name: { [language: string]: string };
-  lastUpdated: string;
-  language: string[];
-  tales: string[];
-}
-
-interface TalesData {
-  [key: string]: Tale;
-}
-
-interface CollectionsData {
-  [key: string]: Collection;
-}
-
-function App() {
+export default function App() {
   const [tales, setTales] = useState<TalesData>({});
   const [collections, setCollections] = useState<CollectionsData>({});
   const [selectedLanguage, setSelectedLanguage] = useState<string>("vi");
-  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Fetching tales...");
     Promise.all([
       fetch("/words_made_of_pixels/tales/_tales.json").then((r) => r.json()),
       fetch("/words_made_of_pixels/tales/_collections.json").then((r) =>
@@ -40,23 +18,11 @@ function App() {
       ),
     ])
       .then(([talesData, collectionsData]: [TalesData, CollectionsData]) => {
-        console.log("Tales data:", talesData);
-        console.log("Collections data:", collectionsData);
         setTales(talesData);
         setCollections(collectionsData);
       })
       .catch((error) => console.error("Error loading data:", error));
   }, []);
-
-  const handleTaleSelect = (taleSlug: string, language?: string) => {
-    const tale = tales[taleSlug];
-    const targetLanguage = language || selectedLanguage;
-    const hasLanguage = tale?.language.includes(targetLanguage);
-    const fileSlug = hasLanguage
-      ? `${taleSlug}-${targetLanguage}`
-      : `${taleSlug}-vi`;
-    navigate(`/tale/${fileSlug}`);
-  };
 
   const getAvailableLanguages = () => {
     const languages = new Set<string>();
@@ -69,183 +35,23 @@ function App() {
     return Array.from(languages).sort();
   };
 
-  const groupedTales = () => {
-    const collectionTales: {
-      [key: string]: Array<{ slug: string; tale: Tale }>;
-    } = {};
-    const standalone: Array<{ slug: string; tale: Tale }> = [];
-
-    // Find which tales belong to collections
-    const taleToCollection: { [taleSlug: string]: string } = {};
-    Object.entries(collections).forEach(([collectionSlug, collection]) => {
-      collection.tales.forEach((taleSlug) => {
-        taleToCollection[taleSlug] = collectionSlug;
-      });
-    });
-
-    // Group tales
-    Object.entries(tales).forEach(([slug, tale]) => {
-      const collectionSlug = taleToCollection[slug];
-
-      if (collectionSlug && collections[collectionSlug]) {
-        const collection = collections[collectionSlug];
-        const collectionName =
-          collection.name[selectedLanguage] ||
-          collection.name["en"] ||
-          Object.values(collection.name)[0];
-
-        if (!collectionTales[collectionName]) {
-          collectionTales[collectionName] = [];
-        }
-        collectionTales[collectionName].push({ slug, tale });
-      } else {
-        standalone.push({ slug, tale });
-      }
-    });
-
-    // Sort collections by tale order as defined in collections
-    Object.entries(collectionTales).forEach(([collectionName, tales]) => {
-      const collection = Object.values(collections).find(
-        (c) =>
-          (c.name[selectedLanguage] ||
-            c.name["en"] ||
-            Object.values(c.name)[0]) === collectionName
-      );
-
-      if (collection) {
-        tales.sort((a, b) => {
-          const aIndex = collection.tales.indexOf(a.slug);
-          const bIndex = collection.tales.indexOf(b.slug);
-          return aIndex - bIndex;
-        });
-      }
-    });
-
-    return { collections: collectionTales, standalone };
+  const availableLanguages = getAvailableLanguages();
+  const sharedProps = {
+    tales,
+    collections,
+    selectedLanguage,
+    availableLanguages,
+    onLanguageChange: setSelectedLanguage,
   };
 
-  const { collections: groupedCollections, standalone } = groupedTales();
-  const availableLanguages = getAvailableLanguages();
-
   return (
-    <div>
-      <h1>Disjointed tales of pixels</h1>
-
-      <div>
-        {Object.entries(groupedCollections).map(([collectionName, tales]) => (
-          <div key={collectionName}>
-            <p>{collectionName}</p>
-            <ul>
-              {tales.map(({ slug, tale }) => {
-                const hasSelectedLanguage =
-                  tale.language.includes(selectedLanguage);
-                const title =
-                  tale.title[selectedLanguage] ||
-                  tale.title["en"] ||
-                  Object.values(tale.title)[0];
-                return (
-                  <li key={slug}>
-                    <button
-                      onClick={() => handleTaleSelect(slug)}
-                      disabled={!hasSelectedLanguage}
-                      style={{ opacity: hasSelectedLanguage ? 1 : 0.5 }}
-                    >
-                      {title} - {tale.author} (
-                      {new Date(tale.lastUpdated).getFullYear()})
-                    </button>
-                    {tale.language.length > 1 && (
-                      <span style={{ marginLeft: "10px" }}>
-                        [
-                        {tale.language.map((lang, index) => (
-                          <span key={lang}>
-                            <button
-                              onClick={() => handleTaleSelect(slug, lang)}
-                              style={{
-                                background: "none",
-                                border: "none",
-                                color: "blue",
-                                textDecoration: "underline",
-                                cursor: "pointer",
-                                padding: "0",
-                                fontSize: "inherit",
-                              }}
-                            >
-                              {lang.toUpperCase()}
-                            </button>
-                            {index < tale.language.length - 1 && ", "}
-                          </span>
-                        ))}
-                        ]
-                      </span>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-
-        {standalone.length > 0 && (
-          <div>
-            <p>Standalone things</p>
-            <ul>
-              {standalone.map(({ slug, tale }) => {
-                const hasSelectedLanguage =
-                  tale.language.includes(selectedLanguage);
-                const title =
-                  tale.title[selectedLanguage] ||
-                  tale.title["en"] ||
-                  Object.values(tale.title)[0];
-                return (
-                  <li key={slug}>
-                    <button
-                      onClick={() => handleTaleSelect(slug)}
-                      disabled={!hasSelectedLanguage}
-                      style={{ opacity: hasSelectedLanguage ? 1 : 0.5 }}
-                    >
-                      {title} - {tale.author} (
-                      {new Date(tale.lastUpdated).getFullYear()})
-                    </button>
-                    {tale.language.length > 1 && (
-                      <span style={{ marginLeft: "10px" }}>
-                        [
-                        {tale.language.map((lang, index) => (
-                          <span key={lang}>
-                            <button
-                              onClick={() => handleTaleSelect(slug, lang)}
-                              style={{
-                                background: "none",
-                                border: "none",
-                                color: "blue",
-                                textDecoration: "underline",
-                                cursor: "pointer",
-                                padding: "0",
-                                fontSize: "inherit",
-                              }}
-                            >
-                              {lang.toUpperCase()}
-                            </button>
-                            {index < tale.language.length - 1 && ", "}
-                          </span>
-                        ))}
-                        ]
-                      </span>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
-      </div>
-
-      <LanguageSelector
-        languages={availableLanguages}
-        selectedLanguage={selectedLanguage}
-        onLanguageChange={setSelectedLanguage}
+    <Routes>
+      <Route path="/" element={<CollectionsListPage {...sharedProps} />} />
+      <Route
+        path="/collection/:collectionSlug"
+        element={<TalesListPage {...sharedProps} />}
       />
-    </div>
+      <Route path="/tale/:slug" element={<OneTalePage />} />
+    </Routes>
   );
 }
-
-export default App;
