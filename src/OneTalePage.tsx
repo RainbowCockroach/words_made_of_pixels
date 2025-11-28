@@ -3,17 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import showdown from "showdown";
 import LanguageSelector from "./LanguageSelector";
 import "./OneTalePage.css";
-
-interface Tale {
-  title: { [language: string]: string };
-  author: string;
-  lastUpdated: string;
-  language: string[];
-}
-
-interface TalesData {
-  [key: string]: Tale;
-}
+import type { Tale, TalesData, CollectionsData } from "./types";
 
 const OneTalePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -22,6 +12,11 @@ const OneTalePage: React.FC = () => {
   const [taleContent, setTaleContent] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
+  const [parentCollection, setParentCollection] = useState<string | null>(null);
+
+  const getBackLink = () => {
+    return parentCollection ? `/collection/${parentCollection}` : "/";
+  };
 
   useEffect(() => {
     const converter = new showdown.Converter();
@@ -62,6 +57,26 @@ const OneTalePage: React.FC = () => {
 
         setTale(taleInfo);
 
+        // Load collections data to find parent collection
+        try {
+          const collectionsResponse = await fetch(
+            "/words_made_of_pixels/tales/_collections.json"
+          );
+          const collectionsData: CollectionsData =
+            await collectionsResponse.json();
+
+          // Find which collection contains this tale
+          const parentCollectionSlug = Object.keys(collectionsData).find(
+            (collectionSlug) =>
+              collectionsData[collectionSlug].tales.includes(baseSlug)
+          );
+
+          setParentCollection(parentCollectionSlug || null);
+        } catch (error) {
+          console.error("Error loading collections:", error);
+          setParentCollection(null);
+        }
+
         // Load tale content
         const contentResponse = await fetch(
           `/words_made_of_pixels/tales/${slug}.md`
@@ -94,7 +109,7 @@ const OneTalePage: React.FC = () => {
   if (!tale) {
     return (
       <div>
-        <Link to="/">← Back</Link>
+        <Link to={getBackLink()}>← Back</Link>
         <div>Not found</div>
       </div>
     );
@@ -116,14 +131,16 @@ const OneTalePage: React.FC = () => {
     if (slug && tale) {
       const parts = slug.split("-");
       const baseSlug = parts.slice(0, -1).join("-");
-      const targetLanguage = tale.language.includes(newLanguage) ? newLanguage : "vi";
+      const targetLanguage = tale.language.includes(newLanguage)
+        ? newLanguage
+        : "vi";
       navigate(`/tale/${baseSlug}-${targetLanguage}`);
     }
   };
 
   return (
     <div className="one-tale-page">
-      <Link to="/">← Back</Link>
+      <Link to={getBackLink()}>← Back</Link>
       <h1>{title}</h1>
       <p className="tale-meta">
         {tale.author} ({new Date(tale.lastUpdated).toLocaleDateString()})
